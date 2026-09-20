@@ -1,0 +1,63 @@
+========================================================================
+Zashaan's Decomment DFA
+Author: Zashaan Shaik
+========================================================================
+------------------------------------------------------------------------
+Textual representation of my DFA for the decomment assignment 1
+
+keep a local variable to keep track of the current line number and the
+line where the comment started
+------------------------------------------------------------------------
+
+BASE (accept) <-- the start state
+   /: SLASH_SEEN
+   ": IN_DOUBLE_QUOTES (print '"')
+   ': IN_SINGLE_QUOTES (print ''')
+   \n: BASE (print '\n', increment line number)
+   other: BASE (print char)
+
+
+SLASH_SEEN (accept)
+   *: IN_COMMENT (print ' ', set comment start equal to line number)
+   /: SLASH_SEEN (print '/')
+   ": IN_DOUBLE_QUOTES (print '/', print '"')
+   ': IN_SINGLE_QUOTES (print '/', print ''')
+   \n: BASE (print '/', print '\n', increment line number)
+   other: BASE (print '/' and print char)
+
+
+IN_COMMENT (reject)
+   *: LEAVE_COMMENT
+   \n: IN_COMMENT (print '\n', increment line number)
+   other: IN_COMMENT
+
+
+LEAVE_COMMENT (reject)
+   /: BASE
+   *: LEAVE_COMMENT
+   \n: IN_COMMENT (print '\n', increment line number)
+   other: IN_COMMENT
+
+
+IN_DOUBLE_QUOTES (accept)
+   \: TEMP_LEAVE_DOUBLE_QUOTES (print '\')
+   ": BASE (print '"')
+   \n: IN_DOUBLE_QUOTES (print '\n', increment line number)
+   other: IN_DOUBLE_QUOTES (print char)
+
+
+TEMP_LEAVE_DOUBLE_QUOTES (accept)
+   \n: IN_DOUBLE_QUOTES (print '\n', increment line number)
+   other: IN_DOUBLE_QUOTES (print char)
+
+
+IN_SINGLE_QUOTES (accept)
+   \: TEMP_LEAVE_SINGLE_QUOTES (print '\')
+   ': BASE (print ''')
+   \n: IN_SINGLE_QUOTES (print '\n', increment line number)
+   other: IN_SINGLE_QUOTES (print char)
+
+
+TEMP_LEAVE_SINGLE_QUOTES (accept)
+   \n: IN_SINGLE_QUOTES (print '\n', increment line number)
+   other: IN_SINGLE_QUOTES (print char)
