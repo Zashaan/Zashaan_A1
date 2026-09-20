@@ -51,11 +51,12 @@ enum Statetype handleSlashSeenState(int c) {
         return SLASH_SEEN;
     }
     if (c == '"') {
-        putchar('/"');
+        putchar('"');
         return IN_DOUBLE_QUOTES;
     }
     if (c == '\'') {
-        putchar('/\'');
+        putchar('/');
+        putchar('\'');
         return IN_SINGLE_QUOTES;
     }
     putchar('/' + c);
@@ -136,10 +137,10 @@ int main(void) {
     int commentStartLine = 0;
     enum Statetype state = BASE;
     /* nextState helps to record the line when the comment starts */
-    enum Statetype nextState;
+    enum Statetype nextState = BASE;
 
     /* loops through all of the chars in input */
-    while ((c = getchar) != EOF) {
+    while ((c = getchar()) != EOF) {
 
         /* assigns the matching function based on the current state 
            and stores the next state */
