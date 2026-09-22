@@ -25,6 +25,9 @@ enum Statetype {
    as printing a char, updating values, etc. each state behaves 
    according to my decomment DFA */
 
+/* this function is called when in base state and will look at the 
+   character passed in and return the appropriate next state while
+   carrying out any of the side actions as necessary */
 enum Statetype handleBaseState(int c) {
     if (c == '/') {
         return SLASH_SEEN;
@@ -41,6 +44,9 @@ enum Statetype handleBaseState(int c) {
     return BASE;
 }
 
+/* this function is called when in the slash seen state and will look
+   at the character passed in and return the appropriate next state 
+   while carrying out any of the side actions as necessary */
 enum Statetype handleSlashSeenState(int c) {
     if (c == '*') {
         putchar(' ');
@@ -65,6 +71,9 @@ enum Statetype handleSlashSeenState(int c) {
     return BASE;
 }
 
+/* this function is called when in comment state and will look at the
+   character passed in and return the appropriate next state while
+   carrying out any of the side actions as necessary */
 enum Statetype handleInCommentState(int c) {
     if (c == '*') {
         return LEAVE_COMMENT;
@@ -75,6 +84,9 @@ enum Statetype handleInCommentState(int c) {
     return IN_COMMENT;
 }
 
+/* this function is called when in leave comment state and will look 
+   at the character passed in and return the appropriate next state
+   while carrying out any of the side actions as necessary */
 enum Statetype handleLeaveCommentState(int c) {
     if (c == '/') {
         return BASE;
@@ -88,6 +100,9 @@ enum Statetype handleLeaveCommentState(int c) {
     return IN_COMMENT;
 }
 
+/* this function is called when in double quotes state and will look
+   at the character passed in and return the appropriate next state 
+   while carrying out any of the side actions as necessary */
 enum Statetype handleInDoubleQuotesState(int c) {
     if (c == '\\') {
         putchar('\\');
@@ -101,11 +116,17 @@ enum Statetype handleInDoubleQuotesState(int c) {
     return IN_DOUBLE_QUOTES;
 }
 
+/* this function is called when in leave double quotes state and will
+   look at the character passed in and return the appropriate next 
+   state while carrying out any of the side actions as necessary */
 enum Statetype handleTempLeaveDoubleQuotesState(int c) {
     putchar(c);
     return IN_DOUBLE_QUOTES;
 }
 
+/* this function is called when in single quotes state and will look
+   at the character passed in and return the appropriate next state 
+   while carrying out any of the side actions as necessary */
 enum Statetype handleInSingleQuotesState(int c) {
     if (c == '\\') {
         putchar('\\');
@@ -119,6 +140,9 @@ enum Statetype handleInSingleQuotesState(int c) {
     return IN_SINGLE_QUOTES;
 }
 
+/* this function is called when in leave single quotes state and will
+   look at the character passed in and return the appropriate next 
+   state while carrying out any of the side actions as necessary */
 enum Statetype handleTempLeaveSingleQuotesState(int c) {
     putchar(c);
     return IN_SINGLE_QUOTES;
