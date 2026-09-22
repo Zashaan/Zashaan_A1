@@ -133,7 +133,7 @@ int main(void) {
 
     /* all of the variables needed to loop through chars*/
     int c;
-    int currentLine = 0;
+    int currentLine = 1;
     int commentStartLine = 0;
     enum Statetype state = BASE;
     /* nextState helps to record the line when the comment starts */
@@ -146,28 +146,28 @@ int main(void) {
            and stores the next state */
         switch (state) {
             case BASE:
-                state = handleBaseState(c);
+                nextState = handleBaseState(c);
                 break;
             case SLASH_SEEN:
-                state = handleSlashSeenState(c);
+                nextState = handleSlashSeenState(c);
                 break;
             case IN_COMMENT:
-                state = handleInCommentState(c);
+                nextState = handleInCommentState(c);
                 break;
             case LEAVE_COMMENT:
-                state = handleLeaveCommentState(c);
+                nextState = handleLeaveCommentState(c);
                 break;
             case IN_DOUBLE_QUOTES:
-                state = handleInDoubleQuotesState(c);
+                nextState = handleInDoubleQuotesState(c);
                 break;
             case TEMP_LEAVE_DOUBLE_QUOTES:
-                state = handleTempLeaveDoubleQuotesState(c);
+                nextState = handleTempLeaveDoubleQuotesState(c);
                 break;
             case IN_SINGLE_QUOTES:
-                state = handleInSingleQuotesState(c);
+                nextState = handleInSingleQuotesState(c);
                 break;
             case TEMP_LEAVE_SINGLE_QUOTES:
-                state = handleTempLeaveSingleQuotesState(c);
+                nextState = handleTempLeaveSingleQuotesState(c);
                 break;
         }
 
@@ -193,7 +193,7 @@ int main(void) {
         putchar('/');
         return 0;
     }
-    if (state == IN_COMMENT || LEAVE_COMMENT) {
+    if (state == IN_COMMENT || state == LEAVE_COMMENT) {
         fprintf(stderr, "Error: line %d: unterminated comment\n", 
         commentStartLine);
         return EXIT_FAILURE;
