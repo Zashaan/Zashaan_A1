@@ -51,6 +51,7 @@ enum Statetype handleSlashSeenState(int c) {
         return SLASH_SEEN;
     }
     if (c == '"') {
+        putchar("/");
         putchar('"');
         return IN_DOUBLE_QUOTES;
     }
@@ -59,7 +60,8 @@ enum Statetype handleSlashSeenState(int c) {
         putchar('\'');
         return IN_SINGLE_QUOTES;
     }
-    putchar('/' + c);
+    putchar('/');
+    putchar(c);
     return BASE;
 }
 
